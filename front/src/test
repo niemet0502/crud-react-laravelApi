@@ -1,0 +1,129 @@
+import React, {useEffect, useState} from 'react'
+import "./Contact.css"
+import dashboard from "../../assets/images/dashboard.png"
+import logo from "../../assets/images/logo2_couleur.png"
+import logoAuchan from "../../assets/images/logoAuchan.png"
+import logoMatiere from "../../assets/images/logoMatiere.jpg"
+import logoAxa from "../../assets/images/logoAxa.png"
+import logoCma from "../../assets/images/logoCma.png"
+import logoSebo from "../../assets/images/logoSebo.jpeg"
+import quote from "../../assets/images/quote.png" 
+import Axios from "axios"
+
+
+const Contact = ({ location }) => {
+    const api_url = process.env.REACT_APP_API_URL;
+    const [working_email, setWorking_email] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [firstname, setFirstname] = useState('')
+    const [phone_number, setPhone_number] = useState('')
+    const [company_name, setCompany_name] = useState('')
+    const [success, setSuccess] = useState('')
+    const [loading, setLoading] = useState('false')
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        try {
+            const { working_email } = location.state
+            setWorking_email(working_email)
+
+        } catch (error) { }
+
+    },
+        [location])
+
+    let handleSubmit = (e) => {
+        e.preventDefault()
+        
+        setLoading('true')
+        Axios.post(api_url, {
+            firstname: firstname,
+            lastname: lastname,
+            working_email: working_email,
+            phone_number: phone_number,
+            company_name: company_name
+
+        })
+            .then(result => {
+               
+                //setLoading(false)
+                setSuccess('true')
+                
+            })
+            .catch(err => {
+                
+                //setLoading(false)
+                setSuccess('false')
+
+            }) 
+            setCompany_name('')
+            setFirstname('')
+            setLastname('')
+            setPhone_number('')
+            setWorking_email('')
+    }
+        return (
+            <div>
+                <div className="header mb-5 ml-0 mr-0">
+                    <div className="row col-md-12 col-12 col-lg-10 position-static banner" style={{position: "static"}}>
+                        <div className="col-md-12 col-12 col-lg-6 pl-0 pr-0  pt-5">
+                            <h5 className="col-md-12 d-md-block d-lg-none text-center">Démo gratuite</h5>
+                            <h2 className="col-md-12 d-md-block d-lg-none mb-5 text-center">Commencez à faire des économies</h2>
+                            <h1 className="mb-3 d-md-none d-lg-block d-none">Commencez votre essai gratuit</h1>
+                            
+                            <p className="d-md-none d-lg-block d-none">
+                                Notre challenge ? 30 jours pour commencer à vous faire réaliser des économies. 
+                                Profitez d’un accompagnement sur mesure et découvrez toute la puissance de Fleeti.
+                            </p>
+                            <p> 
+                                Pas de carte crédit requise, annulation possible à tout moment.
+                            </p>
+                            <img alt=''src={dashboard}className="imgDashboard" />
+                        </div>
+
+                        <div className="col-md-12 col-12 col-lg-6 pt-0 pt-md-0 pt-lg-4">
+                            <form onSubmit={handleSubmit}>
+                                {success === 'true' && <div className="border border-success text-success p-3 mb-4" style={{borderRadius: "3px"}}>Vos informations ont bien été envoyées à l'equipe fleeti. </div>}
+                                {success === 'false' && <div className="border border-danger text-danger p-3 mb-4" style={{borderRadius: "3px"}}>Echec de l'envoi de vos informations.</div>}
+                                <input type="text" placeholder="Société" onChange={({ target }) => setCompany_name(target.value)} value={company_name} required />
+                                <input type="email" placeholder="Adresse Email" value={working_email} pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" onChange={({ target }) => setWorking_email(target.value)} required />
+                                <input type="text" placeholder="Téléphone" value={phone_number} pattern={"^[0-9]*$"} onChange={({ target }) => setPhone_number(target.value)} required />
+                                <input type="text" placeholder="Prénom" value={firstname} onChange={({ target }) => setFirstname(target.value)} required />
+                                <input type="text" placeholder="Nom" value={lastname} onChange={({ target }) => setLastname(target.value)} required />
+                                <button loading={loading} type="submit">Envoyer</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div className="container-fluid content mt-5 mb-5">
+                        <h1 className="text-center mb-5">Ils nous font confiance</h1>
+                        <div className="div__img">
+                           <div>
+                                <img alt=''src={logoMatiere}  />
+                                <img alt=''src={logo}/>
+                                <img alt=''src={logoCma} /> 
+                           </div>
+                            <div >
+                                <img alt=''src={logoAxa} />
+                                <img alt=''src={logoSebo} />
+                                <img alt=''src={logoAuchan}/>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div className="container testimony d-md-none d-lg-block d-none" style={{marginTop: "120px"}}>
+                        <div className="row col-md-8 offset-2">
+                            <p className="d-flex text-center text-justify" style={{fontSize: "22px", fontFamily: "Muli"}}>
+                                <img alt=''src={quote} style={{marginRight: "-70px"}} />
+                                <span style={{marginTop: "20px", marginLeft: "60px", color: "#04212e"}}>“Fleeti nous a ouvert les yeux sur les dépenses liées à notre parc de véhicules. Nous sous-estimions largement les frais engagés et les économies à réaliser.”</span>
+                                <br />
+                            </p>
+                        </div>  
+                    </div>
+                        <h3 className="text-center d-md-none d-lg-block d-none mb-5" style={{fontSize: "22px", marginTop: "30px", color:"rgb(11,161,193)", fontWeight: "bold"}}>J.Balsemin, Adneom</h3>
+                    </div>
+            </div>
+        )
+
+}    
+
+export default Contact
