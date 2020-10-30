@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import Axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
 
-import {Link} from "react-router-dom"
-
 
 
 function Index() {
@@ -34,14 +32,18 @@ function Index() {
         <table class="table col-md-10 offset-1">
           <thead class="thead-dark">
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">TITRE</th>
-              <th scope="col">CONTENUE</th>
+              <th scope="col">CONTENU</th>
               <th scope="col">ACTION</th>
             </tr>
           </thead>
           <tbody>
               {topicalities.map((topicality) => (
                 <tr>
+                  <td>
+                    <h6>{topicality.id}</h6>
+                  </td>
                   <td>
                     <h6>{topicality.title}</h6>
                   </td>
@@ -51,14 +53,7 @@ function Index() {
                     </p>
                   </td>
                   <td>
-                    <Link to={{
-                        pathname:"/editer/"+topicality.title,
-                        state:{
-                            data: topicality
-                        }
-                    }}>
-                      <button className="btn btn-warning">EDITER</button>
-                    </Link>
+                    <button className="btn btn-warning">EDITER</button>
                     <button className="btn btn-danger ml-4">SUPPRIMER</button>
                   </td>
                 </tr>
