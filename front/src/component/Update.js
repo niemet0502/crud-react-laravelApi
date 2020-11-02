@@ -3,7 +3,7 @@ import React from 'react'
 function Update() {
     return (
         <div>
-            <div className="col-md-10 offset-1">
+            <div className="col-md-10 offset-1 mt-5">
                 <form>
                     <div className="row">
                         <div className="form-group col-md">
@@ -19,7 +19,6 @@ function Update() {
                             <button className="btn btn-primary form-control mt-2">ENRGISTRER</button>
                         </div>
                     </div>
-                    
                 </form>
             </div>
         </div>
