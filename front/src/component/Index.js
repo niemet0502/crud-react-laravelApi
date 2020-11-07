@@ -8,14 +8,18 @@ function Index() {
   const api_url = 'http://laravel-api.test/api/topicality';
   const [topicalities, setTopicalities] = useState([]);
 
+  function deleted(id){
+     Axios.delete(`${api_url}/${id}`)
+      topicaliti();
+  }
+
   function topicaliti(){
     Axios.get(api_url)
     .then(response =>{
       const res = response.data
-      console.log(res);
       setTopicalities(res);
     })
-  }
+  };
 
   useEffect(() => {
     topicaliti();
@@ -54,7 +58,7 @@ function Index() {
                   </td>
                   <td>
                     <button className="btn btn-warning">EDITER</button>
-                    <button className="btn btn-danger ml-4">SUPPRIMER</button>
+                    <button className="btn btn-danger mt-2" onClick={() => deleted(topicality.id)}>SUPPRIMER</button>
                   </td>
                 </tr>
                 
